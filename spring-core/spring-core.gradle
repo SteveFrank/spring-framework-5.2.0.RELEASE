@@ -60,6 +60,7 @@ task objenesisRepackJar(type: Jar) { repackJar ->
 }
 
 dependencies {
+	compile fileTree(dir:'lib',includes:['*jar'])
 	cglib("cglib:cglib:${cglibVersion}@jar")
 	objenesis("org.objenesis:objenesis:${objenesisVersion}@jar")
 	jarjar("org.pantsbuild:jarjar:1.7.2")
