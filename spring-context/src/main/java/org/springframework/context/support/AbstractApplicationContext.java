@@ -515,16 +515,29 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
+			// 刷新容器前的预处理
 			// Prepare this context for refreshing.
 			prepareRefresh();
 
-			// Tell the subclass to refresh the internal bean factory.
+			// 让这个类的子类（AbstractApplicationContext）的子类刷新内部工厂 (获得新容器)
+			// ConfigurableListableBeanFactory 两个子类
+			//  => AbstractRefreshableApplicationContext容器：实际上就是重新创建一个bean工厂，并设置工厂的一些属性
+			// 	=> GenericApplicationContext容器：获取创建容器的就创建的bean工厂，并且设置工厂的ID
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
+			// 设置工厂的标准环境，比如context的类加载器和post-processors后处理器
 			// Prepare the bean factory for use in this context.
 			prepareBeanFactory(beanFactory);
 
 			try {
+				/*
+				 * 上面对bean工厂进行了许多配置，现在需要对bean工厂进行一些处理。
+				 * 不同的Spring容器做不同的操作。
+				 * 比如GenericWebApplicationContext容器的操作会在BeanFactory中
+				 * 添加ServletContextAwareProcessor用于处理ServletContextAware类型的bean
+				 * 初始化的时候调用setServletContext
+				 * 或者setServletConfig方法(跟ApplicationContextAwareProcessor原理一样)。
+				 */
 				// Allows post-processing of the bean factory in context subclasses.
 				postProcessBeanFactory(beanFactory);
 
@@ -579,6 +592,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * 刷新前的预处理
+	 * 	1、设置Spring容器的启动时间
+	 * 	2、开启活跃状态，撤销关闭状态
+	 *	3、初始化context environment（上下文环境）中的占位符属性来源
+	 *	4、验证环境信息里一些必须存在的属性
 	 *
 	 * Prepare this context for refreshing, setting its startup date and
 	 * active flag as well as performing any initialization of property sources.
@@ -586,7 +603,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void prepareRefresh() {
 		// Switch to active.
 		this.startupDate = System.currentTimeMillis();
+		// 原子型，撤销关闭状态
 		this.closed.set(false);
+		// 原子型，开启活跃状态
 		this.active.set(true);
 
 		if (logger.isDebugEnabled()) {
@@ -598,9 +617,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 
+		// 继承类的中定义的逻辑方法
 		// Initialize any placeholder property sources in the context environment.
 		initPropertySources();
 
+		// 验证基本信息
 		// Validate that all properties marked as required are resolvable:
 		// see ConfigurablePropertyResolver#setRequiredProperties
 		getEnvironment().validateRequiredProperties();

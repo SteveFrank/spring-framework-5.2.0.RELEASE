@@ -138,6 +138,9 @@ public abstract class AnnotationConfigUtils {
 	}
 
 	/**
+	 *
+	 * 将容器中的Processor处理器 注册到 beanDefinition 的 Map中
+	 *
 	 * Register all relevant annotation post processors in the given registry.
 	 * @param registry the registry to operate on
 	 * @param source the configuration source element (already extracted)
@@ -158,6 +161,7 @@ public abstract class AnnotationConfigUtils {
 			}
 		}
 
+		// 存储bean的定义
 		Set<BeanDefinitionHolder> beanDefs = new LinkedHashSet<>(8);
 
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {

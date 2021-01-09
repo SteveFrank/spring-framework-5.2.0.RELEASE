@@ -77,6 +77,9 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 
 
 	/**
+	 *
+	 * 类路径下的Bean扫描器
+	 *
 	 * Create a new {@code ClassPathBeanDefinitionScanner} for the given bean factory.
 	 * @param registry the {@code BeanFactory} to load bean definitions into, in the form
 	 * of a {@code BeanDefinitionRegistry}
@@ -114,6 +117,10 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	}
 
 	/**
+	 *
+	 * 默认扫描规则是包含@Component注解的类。
+	 * 比如@Controller、比如@Service、比如@Confingration等等等等注解，如果不符合JSR-250、JSR-330标准就会抛出异常。
+	 *
 	 * Create a new {@code ClassPathBeanDefinitionScanner} for the given bean factory and
 	 * using the given {@link Environment} when evaluating bean definition profile metadata.
 	 * <p>If the passed-in bean factory does not only implement the {@code
