@@ -8,6 +8,13 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-<!--	<bean id="welcomeService" class="com.demo.service.impl.WelcomeServiceImpl"/>-->
+	<bean id="welcomeService" class="com.demo.service.impl.WelcomeServiceImpl"/>
+
+	<bean id="user1" class="com.demo.entity.User" scope="singleton" lazy-init="true" primary="true" />
+
+	<bean id="user2" class="com.demo.entity.factory.StaticFactory" factory-method="getUser" scope="singleton" />
+
+	<bean id="userFactory" class="com.demo.entity.factory.UserFactory" />
+	<bean id="user3" factory-bean="userFactory" factory-method="getUser" scope="singleton" />
 
 </beans>
