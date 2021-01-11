@@ -17,4 +17,6 @@
 	<bean id="userFactory" class="com.demo.entity.factory.UserFactory" />
 	<bean id="user3" factory-bean="userFactory" factory-method="getUser" scope="singleton" />
 
+	<bean id="userFactoryBean" class="com.demo.entity.factory.UserFactoryBean"/>
+
 </beans>

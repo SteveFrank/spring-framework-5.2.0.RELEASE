@@ -112,6 +112,11 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
  * @see DisposableBean#destroy
  * @see org.springframework.beans.factory.support.RootBeanDefinition#getDestroyMethodName
+ *
+ * BeanFactory vs FactoryBean
+ *
+ * BeanFactory => Spring 容器的跟接口
+ *
  */
 public interface BeanFactory {
 
@@ -135,6 +140,9 @@ public interface BeanFactory {
 	 * @return an instance of the bean
 	 * @throws NoSuchBeanDefinitionException if there is no bean with the specified name
 	 * @throws BeansException if the bean could not be obtained
+	 *
+	 * 根据Name获取Bean实例
+	 *
 	 */
 	Object getBean(String name) throws BeansException;
 

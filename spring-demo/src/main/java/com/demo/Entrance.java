@@ -2,6 +2,7 @@ package com.demo;
 
 import com.demo.controller.WelcomeController;
 import com.demo.entity.User;
+import com.demo.entity.factory.UserFactoryBean;
 import com.demo.service.WelcomeService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -37,6 +38,9 @@ public class Entrance {
 		User user3a = (User) applicationContext.getBean("user3");
 		User user3b = (User) applicationContext.getBean("user3");
 
+		UserFactoryBean userFactoryBean4a = (UserFactoryBean) applicationContext.getBean("&userFactoryBean");
+		UserFactoryBean userFactoryBean4b = (UserFactoryBean) applicationContext.getBean("&userFactoryBean");
+
 		System.out.println(user1a);
 		System.out.println(user1b);
 		System.out.println("========");
@@ -45,6 +49,9 @@ public class Entrance {
 		System.out.println("========");
 		System.out.println(user3a);
 		System.out.println(user3b);
+		System.out.println("========");
+		System.out.println(userFactoryBean4a);
+		System.out.println(userFactoryBean4b);
 		System.out.println("========");
 
 	}
