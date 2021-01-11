@@ -34,6 +34,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ResourceUtils;
 
 /**
+ *
+ * 大部分默认的公共实现
+ *
  * Convenience base class for {@link Resource} implementations,
  * pre-implementing typical behavior.
  *
