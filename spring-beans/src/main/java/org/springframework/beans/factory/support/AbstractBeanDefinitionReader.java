@@ -107,6 +107,10 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		return this.registry;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public final BeanDefinitionRegistry getRegistry() {
 		return this.registry;
@@ -238,6 +242,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		else {
 			// Can only load single resources by absolute URL.
 			Resource resource = resourceLoader.getResource(location);
+			// 作进一步的加载
 			int count = loadBeanDefinitions(resource);
 			if (actualResources != null) {
 				actualResources.add(resource);
