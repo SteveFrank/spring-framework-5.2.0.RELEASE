@@ -22,6 +22,9 @@ import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 
 /**
+ *
+ * 该监听器同时具备了排序的功能
+ *
  * Extended variant of the standard {@link ApplicationListener} interface,
  * exposing further metadata such as the supported event and source type.
  *

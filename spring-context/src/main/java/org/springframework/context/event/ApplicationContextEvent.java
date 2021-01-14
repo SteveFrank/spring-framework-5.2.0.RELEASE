@@ -29,6 +29,11 @@ import org.springframework.context.ApplicationEvent;
 public abstract class ApplicationContextEvent extends ApplicationEvent {
 
 	/**
+	 *
+	 * 4.X 之后的Spring 会将事件包装为 PayloadApplicationContext
+	 *
+	 * 事件源
+	 *
 	 * Create a new ContextStartedEvent.
 	 * @param source the {@code ApplicationContext} that the event is raised for
 	 * (must not be {@code null})
