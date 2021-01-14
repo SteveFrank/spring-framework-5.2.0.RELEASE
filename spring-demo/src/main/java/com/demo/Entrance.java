@@ -54,6 +54,8 @@ public class Entrance {
 		System.out.println(userFactoryBean4b);
 		System.out.println("========");
 
+
+
 	}
 
 	/**
@@ -74,13 +76,18 @@ public class Entrance {
 
 		WelcomeController welcomeController = (WelcomeController) applicationContext.getBean("welcomeController");
 		welcomeController.handleRequest();
+
+		// MyBatis 框架通过这样的方式整合数据
+		User user5 = (User) applicationContext.getBean("user5");
+		System.out.println("CustomizedBeanDefinitionRegistryPostProcessor 创建对象:" + user5);
+
 	}
 
 	public static void main(String[] args) {
 
-		xmlLoadClass(args);
+//		xmlLoadClass(args);
 
-//		annotationLoadClass(args);
+		annotationLoadClass(args);
 	}
 
 
