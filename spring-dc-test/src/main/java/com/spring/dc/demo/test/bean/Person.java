@@ -21,6 +21,7 @@ public class Person {
 	@Autowired
 	private Cat cat;
 
+	@Lookup
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -29,8 +30,6 @@ public class Person {
 		return name;
 	}
 
-	// 去容器中找
-	@Lookup
 	public Cat getCat() {
 		return cat;
 	}
