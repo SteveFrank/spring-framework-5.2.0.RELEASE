@@ -16,8 +16,10 @@ public class Person {
 		System.out.println("person创建....");
 	}
 
-
 	private String name;
+
+	@Autowired
+	private Cat cat;
 
 	public void setName(String name) {
 		this.name = name;
@@ -25,6 +27,16 @@ public class Person {
 
 	public String getName() {
 		return name;
+	}
+
+	// 去容器中找
+	@Lookup
+	public Cat getCat() {
+		return cat;
+	}
+
+	public void setCat(Cat cat) {
+		this.cat = cat;
 	}
 
 	@Override
