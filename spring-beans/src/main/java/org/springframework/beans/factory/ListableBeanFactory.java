@@ -49,6 +49,11 @@ import org.springframework.lang.Nullable;
  * and {@code containsBeanDefinition}, the methods in this interface
  * are not designed for frequent invocation. Implementations may be slow.
  *
+ * 实现是DefaultListableBeanFactory
+ * 保存了ioc容器中的核心信息
+ *
+ * 可以帮助我们列举出所有的Bean
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 16 April 2001

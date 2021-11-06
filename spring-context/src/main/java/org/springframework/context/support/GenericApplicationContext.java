@@ -83,6 +83,8 @@ import org.springframework.util.Assert;
  * special bean definition formats in a refreshable manner, consider deriving
  * from the {@link AbstractRefreshableApplicationContext} base class.
  *
+ * 利用组合的方式组合了一个DefaultListableBeanFactory
+ *
  * @author Juergen Hoeller
  * @author Chris Beams
  * @since 1.1.2

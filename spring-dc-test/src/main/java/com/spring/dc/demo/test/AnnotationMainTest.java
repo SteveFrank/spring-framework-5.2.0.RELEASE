@@ -31,16 +31,20 @@ public class AnnotationMainTest {
 //		System.out.println(bean1 == bean2);
 
 		// Person 就是单实例，导致获取Cat就是第一次创建Person对象的时候，容器初始化的时候的cat
-		Person bean1 = applicationContext.getBean(Person.class);
-		Cat cat1 = bean1.getCat();
+//		Person bean1 = applicationContext.getBean(Person.class);
+//		Cat cat1 = bean1.getCat();
+//
+//		Person bean2 = applicationContext.getBean(Person.class);
+//		Cat cat2 = bean2.getCat();
+//
+//		// 在不适用 @Lookup注解的时候 结果为true
+//		System.out.println(cat1 == cat2);
+//
+//		System.out.println();
 
-		Person bean2 = applicationContext.getBean(Person.class);
-		Cat cat2 = bean2.getCat();
-
-		// 在不适用 @Lookup注解的时候 结果为true
-		System.out.println(cat1 == cat2);
-
-		System.out.println();
+		Person person = applicationContext.getBean(Person.class);
+		ApplicationContext context = person.getApplicationContext();
+		System.out.println(context == applicationContext);
 
 	}
 

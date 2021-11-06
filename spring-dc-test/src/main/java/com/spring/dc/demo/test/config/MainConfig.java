@@ -13,7 +13,7 @@ import org.springframework.core.type.AnnotationMetadata;
  * @author frankq
  * @date 2021/11/3
  */
-//@Import({MainConfig.MyImportRegistrar.class})
+@Import({MainConfig.MyImportRegistrar.class})
 @Configuration
 @ComponentScan("com.spring.dc.demo.test")
 public class MainConfig {
