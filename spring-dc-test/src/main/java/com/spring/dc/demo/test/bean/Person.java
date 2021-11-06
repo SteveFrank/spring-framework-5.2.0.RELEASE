@@ -9,7 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
-
+@Component
 public class Person {
 
 	public Person(){
@@ -21,7 +21,6 @@ public class Person {
 	@Autowired
 	private Cat cat;
 
-	@Lookup
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -30,6 +29,7 @@ public class Person {
 		return name;
 	}
 
+	@Lookup // 容器中去找，@Bean的方式是不生效的
 	public Cat getCat() {
 		return cat;
 	}

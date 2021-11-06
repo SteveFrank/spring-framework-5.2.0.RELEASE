@@ -18,12 +18,12 @@ import org.springframework.core.type.AnnotationMetadata;
 @ComponentScan("com.spring.dc.demo.test")
 public class MainConfig {
 
-	@Bean
-	public Person person() {
-		Person person = new Person();
-		person.setName("李四");
-		return person;
-	}
+//	@Bean
+//	public Person person() {
+//		Person person = new Person();
+//		person.setName("李四");
+//		return person;
+//	}
 
 	static class MyImportRegistrar implements ImportBeanDefinitionRegistrar {
 		/**

@@ -40,6 +40,8 @@ public class AnnotationMainTest {
 		// 在不适用 @Lookup注解的时候 结果为true
 		System.out.println(cat1 == cat2);
 
+		System.out.println();
+
 	}
 
 }
