@@ -63,7 +63,7 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext {
-
+	/** 后面很多都需要判断这两个属性的值 */
 	@Nullable
 	private Boolean allowBeanDefinitionOverriding;
 
@@ -129,6 +129,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 		try {
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			beanFactory.setSerializationId(getId());
+			// 定制BeanFactory
 			customizeBeanFactory(beanFactory);
 			loadBeanDefinitions(beanFactory);
 			synchronized (this.beanFactoryMonitor) {
@@ -222,6 +223,13 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see DefaultListableBeanFactory#setAllowEagerClassLoading
 	 */
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
+		/**
+		 * 定制这两个参数
+		 * 	1、allowBeanDefinitionOverriding 是否允许并覆盖
+		 * 		--> 如果配置了相同的bean就需要看这个属性了
+		 * 	2、allowCircularReferences 是否允许循环依赖
+		 *
+		 */
 		if (this.allowBeanDefinitionOverriding != null) {
 			beanFactory.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);
 		}

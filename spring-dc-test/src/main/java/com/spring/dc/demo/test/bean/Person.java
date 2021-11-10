@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
  *
  * Aware 接口：帮助我们装配Spring底层的一些组件儿
  *
+ * 1、Bean 的功能增强全部都是有 BeanPostProcessor + InitializingBean 合起来完成的
+ * 2、骚操作 BeanPostProcessor + InitializingBean （事务、通知、web 等等）
+ *
  */
 @Component
 public class Person implements ApplicationContextAware, MessageSourceAware {
