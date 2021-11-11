@@ -119,7 +119,7 @@ import org.springframework.lang.Nullable;
  *
  * BeanFactory vs FactoryBean
  *
- * BeanFactory => Spring 容器的跟接口
+ * BeanFactory => Spring 容器的根接口
  *
  */
 public interface BeanFactory {

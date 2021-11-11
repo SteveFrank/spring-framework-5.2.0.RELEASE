@@ -3,6 +3,8 @@ package com.spring.dc.demo.test;
 import com.spring.dc.demo.test.bean.Cat;
 import com.spring.dc.demo.test.bean.Person;
 import com.spring.dc.demo.test.config.MainConfig;
+import com.spring.dc.demo.test.hm.demo.TestBean;
+import com.spring.dc.demo.test.hm.demo.TestUser;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -43,6 +45,8 @@ public class AnnotationMainTest {
 //		System.out.println();
 
 		Person person = applicationContext.getBean(Person.class);
+		TestBean testBean = applicationContext.getBean(TestBean.class);
+		TestUser testUser = applicationContext.getBean(TestUser.class);
 		ApplicationContext context = person.getApplicationContext();
 		System.out.println(context == applicationContext);
 

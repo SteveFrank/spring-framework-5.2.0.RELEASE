@@ -888,7 +888,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						}
 					}
 				}
-				else {
+				else { // 如果beanName对应的bean不是FactoryBean，只是普通Bean，通过beanName获取bean实例 调用前置，后置出其里、实例化、填充、反射，都藏在这个getBean里面 getBean -- doGetBean -- createBean -- doCreateBean
 					getBean(beanName);
 				}
 			}

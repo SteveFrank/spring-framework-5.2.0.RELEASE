@@ -546,24 +546,35 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Allows post-processing of the bean factory in context subclasses.
 				postProcessBeanFactory(beanFactory);
 
+				// 后置处理器的处理
+				// 调用后置处理器 BeanFactoryPostProcessor 在这里一次完成了所有的注册，创建和执行
 				// Invoke factory processors registered as beans in the context.
 				invokeBeanFactoryPostProcessors(beanFactory);
 
+				// 只是注册不执行 BeanPostProcessor在这里值完成了注册，这就是和BeanFactoryPostProcessor不同的地方
 				// Register bean processors that intercept bean creation.
 				registerBeanPostProcessors(beanFactory);
 
+				// 国际化配置
 				// Initialize message source for this context.
 				initMessageSource();
 
+				// 【初始化事件广播器】初始化自定义的事件监听多路广播器
+				// 如果需要发布时间，就可以调用multicastEvent方法,
+				// 将时间广播给listener，其实就是起一个线程处理，将Event扔给listener处理
 				// Initialize event multicaster for this context.
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
 				onRefresh();
 
+				// 注册观察者 （目前没有，因为现在程序去实现ApplicationListener接口）
 				// Check for listener beans and register them.
 				registerListeners();
 
+				// 实例化所有剩余的（非惰性也就是非懒加载的对象的 初始化）单例
+				// 1) 初始化所有的singleton beans，反射生成对象 填充
+				// 2) 调用Bean的前置处理器和后置处理器
 				// Instantiate all remaining (non-lazy-init) singletons.
 				finishBeanFactoryInitialization(beanFactory);
 
@@ -789,6 +800,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 初始化时间多播器
 	 * Initialize the ApplicationEventMulticaster.
 	 * Uses SimpleApplicationEventMulticaster if none defined in the context.
 	 * @see org.springframework.context.event.SimpleApplicationEventMulticaster
@@ -909,7 +921,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.
-		// 实例化所有剩余的(non-lazy-init)非延时加载大力
+		// 实例化所有剩余的(non-lazy-init)非延时加载
 		beanFactory.preInstantiateSingletons();
 	}
 
