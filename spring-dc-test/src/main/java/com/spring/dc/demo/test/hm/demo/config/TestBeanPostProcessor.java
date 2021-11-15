@@ -1,4 +1,4 @@
-package com.spring.dc.demo.test.hm.demo;
+package com.spring.dc.demo.test.hm.demo.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
