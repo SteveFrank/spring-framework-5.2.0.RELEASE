@@ -38,5 +38,5 @@ rootProject.children.each {project ->
 
 include 'spring-demo'
 include 'spring-dc-test'
-
+include 'spring-dc-mvc-test'
 
