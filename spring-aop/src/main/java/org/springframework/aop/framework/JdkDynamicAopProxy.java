@@ -156,7 +156,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		Object oldProxy = null;
 		boolean setProxyContext = false;
-
+		// 1、advised 就是 proxyFactory 而且 targetSource 持有被代理对象引用
 		TargetSource targetSource = this.advised.targetSource;
 		Object target = null;
 
@@ -188,31 +188,38 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 			}
 
 			// Get as late as possible to minimize the time we "own" the target,
-			// in case it comes from a pool.
+			// in case it comes from a pool. 2、获取得到代理对象
 			target = targetSource.getTarget();
 			Class<?> targetClass = (target != null ? target.getClass() : null);
 
 			// Get the interception chain for this method.
+			// 3、获取拦截器链，例如使用 @Around 注解的时候会找到 AspectJAroundAdvice，还有ExposeInvocationInterceptor
 			List<Object> chain = this.advised.getInterceptorsAndDynamicInterceptionAdvice(method, targetClass);
 
 			// Check whether we have any advice. If we don't, we can fallback on direct
 			// reflective invocation of the target, and avoid creating a MethodInvocation.
+			// 4、检查我们是否有任何拦截器(advice) 如果没有直接反射调用目标，并且避免创建 MethodInvocation
 			if (chain.isEmpty()) {
 				// We can skip creating a MethodInvocation: just invoke the target directly
 				// Note that the final invoker must be an InvokerInterceptor so we know it does
 				// nothing but a reflective operation on the target, and no hot swapping or fancy proxying.
 				Object[] argsToUse = AopProxyUtils.adaptArgumentsIfNecessary(method, args);
+				// 5、不存在拦截器链，则直接进行反射调用
 				retVal = AopUtils.invokeJoinpointUsingReflection(target, method, argsToUse);
 			}
 			else {
 				// We need to create a method invocation...
+				// 6、如果存在拦截器，则创建一个ReflectiveMethodInvocation 代理对象、被代理对象、方法、参数
+				// 被代理对象的Class、拦截器链作为参数创建ReflectiveMethodInvocation
 				MethodInvocation invocation =
 						new ReflectiveMethodInvocation(proxy, target, method, args, targetClass, chain);
 				// Proceed to the joinpoint through the interceptor chain.
+				// 7.触发ReflectiveMethodInvocation的执行方法
 				retVal = invocation.proceed();
 			}
 
 			// Massage return value if necessary.
+			// 必要的时候转换返回值
 			Class<?> returnType = method.getReturnType();
 			if (retVal != null && retVal == target &&
 					returnType != Object.class && returnType.isInstance(proxy) &&
