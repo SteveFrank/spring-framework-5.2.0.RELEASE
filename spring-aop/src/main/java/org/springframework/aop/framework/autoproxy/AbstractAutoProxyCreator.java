@@ -294,7 +294,11 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	@Override
 	public Object postProcessAfterInitialization(@Nullable Object bean, String beanName) {
 		if (bean != null) {
+			// 缓存键：
+			// 1、beanName不为空的情况下，使用beanName（FactoryBean会在前面加上 "&"）
+			// 2、如果beanName为空，则会使用Class对象作为缓存的key
 			Object cacheKey = getCacheKey(bean.getClass(), beanName);
+			// 1、判断当前bean是否需要被代理，如果需要则进行封装
 			if (this.earlyProxyReferences.remove(cacheKey) != bean) {
 				return wrapIfNecessary(bean, beanName, cacheKey);
 			}
@@ -332,6 +336,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	 * @return a proxy wrapping the bean, or the raw bean instance as-is
 	 */
 	protected Object wrapIfNecessary(Object bean, String beanName, Object cacheKey) {
+		// 判断当前bean是否在缓存中存在
 		if (StringUtils.hasLength(beanName) && this.targetSourcedBeans.contains(beanName)) {
 			return bean;
 		}
@@ -344,6 +349,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		}
 
 		// Create proxy if we have advice.
+		// 获取当前bean的 Advices 和 Advisors (切面加通知)
 		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null);
 		if (specificInterceptors != DO_NOT_PROXY) {
 			this.advisedBeans.put(cacheKey, Boolean.TRUE);
@@ -445,15 +451,20 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		if (this.beanFactory instanceof ConfigurableListableBeanFactory) {
 			AutoProxyUtils.exposeTargetClass((ConfigurableListableBeanFactory) this.beanFactory, beanName, beanClass);
 		}
-
+		// 1、初始化ProxyFactory
 		ProxyFactory proxyFactory = new ProxyFactory();
+		// 从当前对象复制属性值
 		proxyFactory.copyFrom(this);
 
+		// 检查proxyTargetClass属性，判断对于给定的bean使用类代理还是接口代理，
+		// proxyTargetClass值默认为false，可以通过proxy-target-class属性设置为true
 		if (!proxyFactory.isProxyTargetClass()) {
+			// 检查preserveTargetClass属性，判断beanClass是应该基于类代理还是基于接口代理
 			if (shouldProxyTargetClass(beanClass, beanName)) {
 				proxyFactory.setProxyTargetClass(true);
 			}
 			else {
+				// 评估bean的代理接口
 				evaluateProxyInterfaces(beanClass, proxyFactory);
 			}
 		}
@@ -462,12 +473,12 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		proxyFactory.addAdvisors(advisors);
 		proxyFactory.setTargetSource(targetSource);
 		customizeProxyFactory(proxyFactory);
-
+		// 用来控制proxyFactory被配置之后，是否还允许修改通知。默认值为false（即在代理被配置之 后，不允许修改代理类的配置）
 		proxyFactory.setFrozen(this.freezeProxy);
 		if (advisorsPreFiltered()) {
 			proxyFactory.setPreFiltered(true);
 		}
-
+		// 2、使用proxyFactory获取代理
 		return proxyFactory.getProxy(getProxyClassLoader());
 	}
 

@@ -110,6 +110,7 @@ public class BeanFactoryAdvisorRetrievalHelper {
 				}
 			}
 		}
+		// 返回增强器
 		return advisors;
 	}
 

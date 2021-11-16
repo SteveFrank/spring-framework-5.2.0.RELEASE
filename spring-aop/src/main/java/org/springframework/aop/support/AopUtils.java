@@ -307,17 +307,21 @@ public abstract class AopUtils {
 			return candidateAdvisors;
 		}
 		List<Advisor> eligibleAdvisors = new ArrayList<>();
+		// 1、首先处理引介增强（@DeclareParents）用的比较少可以忽略
 		for (Advisor candidate : candidateAdvisors) {
 			if (candidate instanceof IntroductionAdvisor && canApply(candidate, clazz)) {
 				eligibleAdvisors.add(candidate);
 			}
 		}
 		boolean hasIntroductions = !eligibleAdvisors.isEmpty();
+		// 2、遍历所有的candidateAdvisors
 		for (Advisor candidate : candidateAdvisors) {
+			// 2.1 引介增强已经处理，可以直接跳过
 			if (candidate instanceof IntroductionAdvisor) {
 				// already processed
 				continue;
 			}
+			// 2.2 正常增强处理，判断当前bean是否可以应用于当前遍历的增强器（bean是否包含在增强 器的execution指定的表达式中）
 			if (canApply(candidate, clazz, hasIntroductions)) {
 				eligibleAdvisors.add(candidate);
 			}
