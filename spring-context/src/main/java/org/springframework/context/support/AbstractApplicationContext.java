@@ -528,6 +528,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			// ConfigurableListableBeanFactory 两个子类
 			//  => AbstractRefreshableApplicationContext容器：实际上就是重新创建一个bean工厂，并设置工厂的一些属性
 			// 	=> GenericApplicationContext容器：获取创建容器的就创建的bean工厂，并且设置工厂的ID
+			// BeanFactory下的3个缓存
+			// 1、beanDefinitionNames缓存 所有被加载到BeanFactory中的bean的beanNames集合
+			// 2、beanDefinitionMap缓存 所有被加载到BeanFactory中的ben的beanName和BeanDefinition映射
+			// 3、aliasMap缓存 所有被加载到BeanFactory中的bean的beanName和别名映射
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// 设置工厂的标准环境，比如context的类加载器和post-processors后处理器
@@ -619,6 +623,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void prepareRefresh() {
 		// Switch to active.
 		this.startupDate = System.currentTimeMillis();
+		// AtomicBoolean
 		// 原子型，撤销关闭状态
 		this.closed.set(false);
 		// 原子型，开启活跃状态
@@ -641,7 +646,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Validate that all properties marked as required are resolvable:
 		// see ConfigurablePropertyResolver#setRequiredProperties
 		getEnvironment().validateRequiredProperties();
-
+		// 初始化监听器
 		// Store pre-refresh ApplicationListeners...
 		if (this.earlyApplicationListeners == null) {
 			this.earlyApplicationListeners = new LinkedHashSet<>(this.applicationListeners);
